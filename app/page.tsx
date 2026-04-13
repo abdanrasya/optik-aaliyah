@@ -146,7 +146,7 @@ export default function LandingPage() {
                 VISI BARU.<br />GAYA ABADI.
               </h1>
               <p className="text-lg lg:text-xl text-zinc-600 mb-10 leading-relaxed font-light max-w-xl mx-auto lg:mx-0">
-                Koleksi *eyewear* premium yang dirancang untuk mendefinisikan ulang proporsi wajah dan menyempurnakan karakter personalmu.
+                Koleksi "eyewear" premium yang dirancang untuk mendefinisikan ulang proporsi wajah dan menyempurnakan karakter personalmu.
               </p>
               <Link href="/koleksi" className="inline-block bg-zinc-900 text-white font-bold text-sm tracking-widest py-4 px-10 uppercase hover:bg-zinc-800 transition-colors">
                 Lihat Koleksi
@@ -205,7 +205,7 @@ export default function LandingPage() {
                   <div className="border-t border-zinc-800 pt-8">
                     <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-white">Visi Kami</h4>
                     <p className="text-sm text-zinc-400 leading-relaxed">
-                      Menjadi standar baru dalam kurasi *eyewear* yang menggabungkan kualitas material superior dengan desain yang tak lekang oleh waktu.
+                      Menjadi standar baru dalam kurasi "eyewear" yang menggabungkan kualitas material superior dengan desain yang tak lekang oleh waktu.
                     </p>
                   </div>
                   <div className="border-t border-zinc-800 pt-8">
@@ -223,36 +223,55 @@ export default function LandingPage() {
 
       </div>
 
-      {/* FOOTER */}
+{/* FOOTER DENGAN MAPS (DIPERKECIL) */}
       <footer className="bg-white border-t border-zinc-200 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
-            <div className="max-w-sm">
-              <h3 className="font-black text-2xl tracking-tighter text-zinc-900 uppercase mb-6">Optik Aaliyah.</h3>
-              <p className="text-zinc-500 leading-relaxed text-sm font-medium">
-                Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-12 md:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
+            
+            {/* Bagian Kiri: Info & Link (Porsi diperbesar jadi 7 kolom) */}
+            <div className="md:col-span-7 flex flex-col justify-between">
               <div>
-                <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Tautan</h4>
-                <ul className="space-y-4 text-sm font-medium">
-                  <li><Link href="/" className="text-zinc-500 hover:text-zinc-900 transition-colors">Beranda</Link></li>
-                  <li><Link href="/koleksi" className="text-zinc-500 hover:text-zinc-900 transition-colors">Katalog Koleksi</Link></li>
-                </ul>
+                <h3 className="font-black text-2xl tracking-tighter text-zinc-900 uppercase mb-6">Optik Aaliyah.</h3>
+                <p className="text-zinc-500 leading-relaxed text-sm font-medium pr-8 mb-8 max-w-md">
+                  Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.
+                </p>
               </div>
-              <div>
-                <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Kontak</h4>
-                <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                  <li>Sidoarjo, Jawa Timur</li>
-                  <li>+62 812-3456-7890</li>
-                  <li>halo@optikaaliyah.com</li>
-                </ul>
+              <div className="flex gap-16">
+                <div>
+                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Tautan</h4>
+                  <ul className="space-y-4 text-sm font-medium">
+                    <li><Link href="/" className="text-zinc-500 hover:text-zinc-900 transition-colors">Beranda</Link></li>
+                    <li><Link href="/koleksi" className="text-zinc-500 hover:text-zinc-900 transition-colors">Katalog Koleksi</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Kontak</h4>
+                  <ul className="space-y-4 text-sm font-medium text-zinc-500">
+                    <li>Puri Indah Df 19, Sidoarjo, Jawa Timur</li>
+                    <li>+62 822 6477 4367</li>
+                    <li>Yuniartiunimawarni@gmail.com</li>
+                  </ul>
+                </div>
               </div>
             </div>
+
+            {/* Bagian Kanan: GOOGLE MAPS (Porsi diperkecil jadi 5 kolom, tinggi disesuaikan) */}
+            <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-100 border border-zinc-200 p-2">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.102594091213!2d112.6823516760512!3d-7.453901273464231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e591ba40e1f9%3A0x1ee871e6ac517c61!2sOptik%20Aaliyah!5e0!3m2!1sid!2sid!4v1776056666993!5m2!1sid!2sid" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={true} 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                className="filter grayscale hover:grayscale-0 transition-all duration-500"
+              ></iframe>
+            </div>
+
           </div>
           <div className="border-t border-zinc-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-400 text-xs font-bold uppercase tracking-widest">
-            <p>&copy; 2026 OPTIK AALIYAH.</p>
+            <p>© 2026 OPTIK AALIYAH.</p>
             <p>SIDOARJO, ID</p>
           </div>
         </div>
