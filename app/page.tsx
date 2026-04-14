@@ -19,7 +19,6 @@ export default function LandingPage() {
   const [heroImage, setHeroImage] = useState("https://i.ibb.co/30Z3D2c/sunglasses-png-transparent-picture-11535787682sz9qngolow.png");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // TOAST NOTIFICATION
   const [toastMsg, setToastMsg] = useState("");
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -79,7 +78,6 @@ export default function LandingPage() {
   return (
     <main className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white">
       
-      {/* KODE CSS ANIMASI CUSTOM */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
@@ -88,7 +86,6 @@ export default function LandingPage() {
         .delay-300 { animation-delay: 300ms; }
       `}} />
 
-      {/* TOAST NOTIFICATION */}
       {toastMsg && (
         <div className="fixed bottom-8 right-8 z-[100] bg-zinc-900 text-white px-6 py-4 shadow-2xl flex items-center gap-4 animate-fade-up">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -170,7 +167,7 @@ export default function LandingPage() {
                 VISI BARU.<br />GAYA ABADI.
               </h1>
               <p className="text-lg lg:text-xl text-zinc-600 mb-10 leading-relaxed font-light max-w-xl mx-auto lg:mx-0">
-                Koleksi "eyewear" premium yang dirancang untuk mendefinisikan ulang proporsi wajah dan menyempurnakan karakter personalmu.
+                Koleksi eyewear premium yang dirancang untuk mendefinisikan ulang proporsi wajah dan menyempurnakan karakter personalmu.
               </p>
               <Link href="/koleksi" className="inline-block bg-zinc-900 text-white font-bold text-sm tracking-widest py-4 px-10 uppercase hover:bg-zinc-800 transition-colors">
                 Lihat Koleksi
@@ -207,7 +204,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* FITUR BARU: VIRTUAL TRY-ON & PANDUAN WAJAH */}
+        {/* FITUR VIRTUAL TRY-ON & PANDUAN WAJAH */}
         <div className="bg-white py-32 border-t border-zinc-200 overflow-hidden animate-fade-up delay-300">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -251,7 +248,6 @@ export default function LandingPage() {
               
               <div className="order-1 lg:order-2 bg-zinc-100 p-8 flex items-center justify-center aspect-square relative overflow-hidden group">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-luminosity opacity-40 grayscale transition-all duration-1000 group-hover:opacity-80 group-hover:grayscale-0 group-hover:scale-105"></div>
-                
                 <div className="relative z-10 border border-zinc-900/10 bg-white/90 backdrop-blur-md p-8 text-center max-w-xs shadow-2xl transform transition-transform duration-500 group-hover:-translate-y-2">
                   <svg className="w-10 h-10 mx-auto text-zinc-900 mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                   <h3 className="font-bold text-zinc-900 uppercase tracking-widest text-sm mb-3">Pemindai Wajah AR</h3>
@@ -265,26 +261,26 @@ export default function LandingPage() {
         </div>
 
         {/* MANIFESTO */}
-        <div className="bg-zinc-900 text-white py-32 overflow-hidden">
+        <div className="bg-white text-zinc-900 py-32 border-t border-zinc-200 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
               <div className="lg:col-span-5">
                 <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
-                  Optik <br /> Aaliyah <br /> <span className="text-zinc-500">Manifesto.</span>
+                  Optik <br /> Aaliyah <br /> <span className="text-zinc-400">Manifesto.</span>
                 </h2>
               </div>
               <div className="lg:col-span-7">
-                <p className="text-xl lg:text-2xl font-light leading-relaxed mb-12 text-zinc-300">
+                <p className="text-xl lg:text-2xl font-light leading-relaxed mb-12 text-zinc-600">
                   Lahir di Sidoarjo dengan semangat untuk mengubah cara dunia melihat Anda. Kami percaya bahwa kacamata bukan sekadar alat bantu penglihatan, melainkan pernyataan gaya yang mendalam.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                  <div className="border-t border-zinc-800 pt-8">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-white">Visi Kami</h4>
-                    <p className="text-sm text-zinc-400 leading-relaxed">Menjadi standar baru dalam kurasi eyewear yang menggabungkan kualitas material superior dengan desain yang tak lekang oleh waktu.</p>
+                  <div className="border-t border-zinc-200 pt-8">
+                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-zinc-900">Visi Kami</h4>
+                    <p className="text-sm text-zinc-500 leading-relaxed">Menjadi standar baru dalam kurasi eyewear yang menggabungkan kualitas material superior dengan desain yang tak lekang oleh waktu.</p>
                   </div>
-                  <div className="border-t border-zinc-800 pt-8">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-white">Filosofi</h4>
-                    <p className="text-sm text-zinc-400 leading-relaxed">Setiap frame yang kami hadirkan dipilih dengan presisi tinggi, memastikan keseimbangan antara kenyamanan maksimal dan estetika.</p>
+                  <div className="border-t border-zinc-200 pt-8">
+                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-zinc-900">Filosofi</h4>
+                    <p className="text-sm text-zinc-500 leading-relaxed">Setiap frame yang kami hadirkan dipilih dengan presisi tinggi, memastikan keseimbangan antara kenyamanan maksimal dan estetika.</p>
                   </div>
                 </div>
               </div>
@@ -294,36 +290,36 @@ export default function LandingPage() {
 
       </div>
 
-      {/* FOOTER MAPS */}
-      <footer className="bg-white border-t border-zinc-200 pt-20 pb-10">
+      {/* FOOTER MAPS (INFO UPDATE DARI KARTU NAMA) */}
+      <footer className="bg-zinc-900 border-t border-zinc-900 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
             <div className="md:col-span-7 flex flex-col justify-between">
               <div>
-                <h3 className="font-black text-2xl tracking-tighter text-zinc-900 uppercase mb-6">Optik Aaliyah.</h3>
-                <p className="text-zinc-500 leading-relaxed text-sm font-medium pr-8 mb-8 max-w-md">
+                <h3 className="font-black text-2xl tracking-tighter text-white uppercase mb-6">Optik Aaliyah.</h3>
+                <p className="text-zinc-400 leading-relaxed text-sm font-medium pr-8 mb-8 max-w-md">
                   Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.
                 </p>
               </div>
               <div className="flex gap-16">
                 <div>
-                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Tautan</h4>
+                  <h4 className="font-bold text-white uppercase tracking-widest text-xs mb-6">Tautan</h4>
                   <ul className="space-y-4 text-sm font-medium">
-                    <li><Link href="/" className="text-zinc-500 hover:text-zinc-900 transition-colors">Beranda</Link></li>
-                    <li><Link href="/koleksi" className="text-zinc-500 hover:text-zinc-900 transition-colors">Katalog Koleksi</Link></li>
+                    <li><Link href="/" className="text-zinc-400 hover:text-white transition-colors">Beranda</Link></li>
+                    <li><Link href="/koleksi" className="text-zinc-400 hover:text-white transition-colors">Katalog Koleksi</Link></li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Kontak</h4>
-                  <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                    <li>Sidoarjo, Jawa Timur</li>
-                    <li>+62 812-3456-7890</li>
-                    <li>halo@optikaaliyah.com</li>
+                  <h4 className="font-bold text-white uppercase tracking-widest text-xs mb-6">Kontak</h4>
+                  <ul className="space-y-4 text-sm font-medium text-zinc-400">
+                    <li>Puri Indah Df 19, Sidoarjo</li>
+                    <li>+62 822-6477-4367</li>
+                    <li className="lowercase">yuniartiunimawarni@gmail.com</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-100 border border-zinc-200 p-2">
+            <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-800 border border-zinc-700 p-2">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.102594091213!2d112.6823516760512!3d-7.453901273464231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e591ba40e1f9%3A0x1ee871e6ac517c61!2sOptik%20Aaliyah!5e0!3m2!1sid!2sid!4v1776056666993!5m2!1sid!2sid" 
                 width="100%" 
@@ -332,11 +328,11 @@ export default function LandingPage() {
                 allowFullScreen={true} 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
-                className="filter grayscale hover:grayscale-0 transition-all duration-500"
+                className="filter grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
               ></iframe>
             </div>
           </div>
-          <div className="border-t border-zinc-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-400 text-xs font-bold uppercase tracking-widest">
+          <div className="border-t border-zinc-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-bold uppercase tracking-widest">
             <p>© 2026 OPTIK AALIYAH.</p>
             <p>SIDOARJO, ID</p>
           </div>

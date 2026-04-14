@@ -29,10 +29,11 @@ export default function KoleksiPage() {
   const [heroFileBase64, setHeroFileBase64] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // FITUR: Search Filter & Toast Notification
   const [searchQuery, setSearchQuery] = useState("");
   const [toastMsg, setToastMsg] = useState("");
-  const waNumber = "6281234567890"; 
+  
+  // NOMOR WHATSAPP UPDATE DARI KARTU NAMA
+  const waNumber = "6282264774367"; 
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -166,7 +167,6 @@ export default function KoleksiPage() {
     window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
-  // FILTER UNTUK PENCARIAN
   const filteredProducts = products.filter(product => 
     product.nama.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -174,7 +174,6 @@ export default function KoleksiPage() {
   return (
     <main className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white">
       
-      {/* CSS CUSTOM */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
@@ -182,7 +181,6 @@ export default function KoleksiPage() {
         .delay-200 { animation-delay: 200ms; }
       `}} />
 
-      {/* TOAST NOTIFICATION */}
       {toastMsg && (
         <div className="fixed bottom-8 right-8 z-[100] bg-zinc-900 text-white px-6 py-4 shadow-2xl flex items-center gap-4 animate-fade-up">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -252,7 +250,6 @@ export default function KoleksiPage() {
             </p>
           </div>
           
-          {/* FITUR PENCARIAN */}
           <div className="w-full md:max-w-xs relative">
             <input 
               type="text" 
@@ -346,36 +343,36 @@ export default function KoleksiPage() {
         </div>
       </div>
 
-      {/* FOOTER MAPS */}
-      <footer className="bg-white border-t border-zinc-200 pt-20 pb-10">
+      {/* FOOTER MAPS (INFO UPDATE DARI KARTU NAMA) */}
+      <footer className="bg-zinc-900 border-t border-zinc-900 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
             <div className="md:col-span-7 flex flex-col justify-between">
               <div>
-                <h3 className="font-black text-2xl tracking-tighter text-zinc-900 uppercase mb-6">Optik Aaliyah.</h3>
-                <p className="text-zinc-500 leading-relaxed text-sm font-medium pr-8 mb-8 max-w-md">
+                <h3 className="font-black text-2xl tracking-tighter text-white uppercase mb-6">Optik Aaliyah.</h3>
+                <p className="text-zinc-400 leading-relaxed text-sm font-medium pr-8 mb-8 max-w-md">
                   Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.
                 </p>
               </div>
               <div className="flex gap-16">
                 <div>
-                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Tautan</h4>
+                  <h4 className="font-bold text-white uppercase tracking-widest text-xs mb-6">Tautan</h4>
                   <ul className="space-y-4 text-sm font-medium">
-                    <li><Link href="/" className="text-zinc-500 hover:text-zinc-900 transition-colors">Beranda</Link></li>
-                    <li><Link href="/koleksi" className="text-zinc-500 hover:text-zinc-900 transition-colors">Katalog Koleksi</Link></li>
+                    <li><Link href="/" className="text-zinc-400 hover:text-white transition-colors">Beranda</Link></li>
+                    <li><Link href="/koleksi" className="text-zinc-400 hover:text-white transition-colors">Katalog Koleksi</Link></li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Kontak</h4>
-                  <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                    <li>Sidoarjo, Jawa Timur</li>
-                    <li>+62 812-3456-7890</li>
-                    <li>halo@optikaaliyah.com</li>
+                  <h4 className="font-bold text-white uppercase tracking-widest text-xs mb-6">Kontak</h4>
+                  <ul className="space-y-4 text-sm font-medium text-zinc-400">
+                    <li>Puri Indah Df 19, Sidoarjo</li>
+                    <li>+62 822-6477-4367</li>
+                    <li className="lowercase">yuniartiunimawarni@gmail.com</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-100 border border-zinc-200 p-2">
+            <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-800 border border-zinc-700 p-2">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.102594091213!2d112.6823516760512!3d-7.453901273464231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e591ba40e1f9%3A0x1ee871e6ac517c61!2sOptik%20Aaliyah!5e0!3m2!1sid!2sid!4v1776056666993!5m2!1sid!2sid" 
                 width="100%" 
@@ -384,11 +381,11 @@ export default function KoleksiPage() {
                 allowFullScreen={true} 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
-                className="filter grayscale hover:grayscale-0 transition-all duration-500"
+                className="filter grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
               ></iframe>
             </div>
           </div>
-          <div className="border-t border-zinc-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-400 text-xs font-bold uppercase tracking-widest">
+          <div className="border-t border-zinc-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-bold uppercase tracking-widest">
             <p>© 2026 OPTIK AALIYAH.</p>
             <p>SIDOARJO, ID</p>
           </div>
@@ -400,9 +397,7 @@ export default function KoleksiPage() {
         <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
           <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" onClick={() => setShowAuthModal(false)}></div>
           <div className="bg-white p-10 w-full max-w-md relative shadow-2xl animate-fade-up">
-            <button onClick={() => setShowAuthModal(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
+            <button onClick={() => setShowAuthModal(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             <h2 className="text-2xl font-black mb-8 text-zinc-900 tracking-tight uppercase">{isLoginMode ? "Masuk" : "Daftar Akun"}</h2>
             <form onSubmit={handleAuth} className="flex flex-col gap-5">
               <div>
