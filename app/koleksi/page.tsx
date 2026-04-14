@@ -12,28 +12,32 @@ export default function KoleksiPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [imageBase64, setImageBase64] = useState("");
-
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingId, setEditingId] = useState("");
   const [editName, setEditName] = useState("");
   const [editPrice, setEditPrice] = useState("");
   const [editDesc, setEditDesc] = useState("");
   const [editImageBase64, setEditImageBase64] = useState("");
-
   const [heroFileBase64, setHeroFileBase64] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  
+  // FITUR: Search Filter & Toast Notification
+  const [searchQuery, setSearchQuery] = useState("");
+  const [toastMsg, setToastMsg] = useState("");
   const waNumber = "6281234567890"; 
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(""), 3000);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -64,22 +68,22 @@ export default function KoleksiPage() {
     try {
       if (isLoginMode) {
         await signInWithEmailAndPassword(auth, email, password);
-        alert("Berhasil Login!");
+        showToast("BERHASIL MASUK KE AKUN");
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
-        alert("Berhasil Mendaftar & Login!");
+        showToast("AKUN BERHASIL DIBUAT");
       }
       setShowAuthModal(false);
       setEmail(""); setPassword("");
       setIsMobileMenuOpen(false);
     } catch (error: any) {
-      alert("Error: " + error.message);
+      showToast("GAGAL: " + error.message);
     }
   };
 
   const handleLogout = async () => {
     await signOut(auth);
-    alert("Berhasil Logout");
+    showToast("BERHASIL KELUAR");
     setIsMobileMenuOpen(false);
   };
 
@@ -87,7 +91,7 @@ export default function KoleksiPage() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 800 * 1024) {
-        alert("Ukuran foto maksimal 800 KB!");
+        showToast("GAGAL: Ukuran foto maksimal 800 KB!");
         e.target.value = ""; 
         return;
       }
@@ -102,12 +106,12 @@ export default function KoleksiPage() {
     if (!heroFileBase64) return;
     try {
       await setDoc(doc(db, "pengaturan", "beranda"), { url_foto_utama: heroFileBase64 }, { merge: true });
-      alert("Foto Beranda Diperbarui.");
+      showToast("FOTO BERANDA BERHASIL DIPERBARUI");
       setHeroFileBase64(""); 
       const heroInput = document.getElementById('hero-upload') as HTMLInputElement;
       if (heroInput) heroInput.value = '';
     } catch (error) {
-      console.error(error);
+      showToast("GAGAL MENGUBAH FOTO");
     }
   };
 
@@ -116,11 +120,12 @@ export default function KoleksiPage() {
     if (!newName || !newPrice || !newDesc || !imageBase64) return;
     try {
       await addDoc(collection(db, "kacamata"), { nama: newName, harga: Number(newPrice), deskripsi: newDesc, gambar: imageBase64 });
+      showToast("PRODUK BERHASIL DITAMBAHKAN");
       setNewName(""); setNewPrice(""); setNewDesc(""); setImageBase64("");
       const productInput = document.getElementById('product-upload') as HTMLInputElement;
       if (productInput) productInput.value = '';
     } catch (error) {
-      console.error(error);
+      showToast("GAGAL MENAMBAHKAN PRODUK");
     }
   };
 
@@ -138,19 +143,22 @@ export default function KoleksiPage() {
     try {
       await updateDoc(doc(db, "kacamata", editingId), { nama: editName, harga: Number(editPrice), deskripsi: editDesc, gambar: editImageBase64 });
       setIsEditModalOpen(false);
-      alert("Produk Diperbarui.");
+      showToast("REVISI BERHASIL DISIMPAN");
     } catch (error) {
-      console.error(error);
+      showToast("GAGAL MENYIMPAN REVISI");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Hapus item ini secara permanen?")) await deleteDoc(doc(db, "kacamata", id));
+    if (confirm("Hapus item ini secara permanen?")) {
+      await deleteDoc(doc(db, "kacamata", id));
+      showToast("PRODUK BERHASIL DIHAPUS");
+    }
   };
 
   const buyViaWhatsApp = (namaBarang: string) => {
     if (!user) {
-      alert("Silakan Masuk atau Daftar terlebih dahulu.");
+      showToast("SILAKAN MASUK TERLEBIH DAHULU");
       setShowAuthModal(true);
       return; 
     }
@@ -158,11 +166,32 @@ export default function KoleksiPage() {
     window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
+  // FILTER UNTUK PENCARIAN
+  const filteredProducts = products.filter(product => 
+    product.nama.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <main className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white">
       
+      {/* CSS CUSTOM */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+      `}} />
+
+      {/* TOAST NOTIFICATION */}
+      {toastMsg && (
+        <div className="fixed bottom-8 right-8 z-[100] bg-zinc-900 text-white px-6 py-4 shadow-2xl flex items-center gap-4 animate-fade-up">
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <p className="text-xs font-bold tracking-widest uppercase">{toastMsg}</p>
+        </div>
+      )}
+
       {/* NAVBAR */}
-      <nav className="w-full bg-white border-b border-zinc-200 sticky top-0 z-50">
+      <nav className="w-full bg-white border-b border-zinc-200 sticky top-0 z-50 animate-fade-up">
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
           <Link href="/" className="font-black text-2xl tracking-tighter text-zinc-900 uppercase">Optik Aaliyah.</Link>
           <div className="hidden md:flex items-center gap-10">
@@ -209,22 +238,36 @@ export default function KoleksiPage() {
         </div>
       )}
 
-      {/* Konten Utama */}
+      {/* KONTEN UTAMA */}
       <div className="max-w-7xl mx-auto px-6 py-16 flex-grow w-full">
-        <div className="mb-16 border-b border-zinc-200 pb-8">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 uppercase">
-            {isAdmin ? "Dashboard Manajemen" : "Katalog Eksklusif"}
-          </h1>
-          <p className="text-zinc-500 text-lg mt-4 font-medium">
-            {isAdmin ? "Kelola inventaris dan tampilan website Optik Aaliyah." : "Eksplorasi koleksi frame yang menyempurnakan proporsi wajahmu."}
-          </p>
+        
+        {/* HEADER & SEARCH BAR */}
+        <div className="mb-16 border-b border-zinc-200 pb-8 animate-fade-up delay-100 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 uppercase">
+              {isAdmin ? "Dashboard Manajemen" : "Katalog Eksklusif"}
+            </h1>
+            <p className="text-zinc-500 text-lg mt-4 font-medium max-w-xl">
+              {isAdmin ? "Kelola inventaris dan tampilan website Optik Aaliyah." : "Eksplorasi koleksi frame yang menyempurnakan proporsi wajahmu."}
+            </p>
+          </div>
+          
+          {/* FITUR PENCARIAN */}
+          <div className="w-full md:max-w-xs relative">
+            <input 
+              type="text" 
+              placeholder="Cari Koleksi..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border-b-2 border-zinc-300 focus:border-zinc-900 py-2 pl-8 pr-4 text-sm font-bold text-zinc-900 placeholder:text-zinc-400 focus:outline-none transition-colors uppercase tracking-widest"
+            />
+            <svg className="w-5 h-5 absolute left-0 bottom-2.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          </div>
         </div>
 
         {/* ADMIN PANELS */}
         {isAdmin && (
-          <div className="mb-16 grid grid-cols-1 xl:grid-cols-3 gap-8">
-            
-            {/* PANEL 1: GANTI FOTO BERANDA */}
+          <div className="mb-16 grid grid-cols-1 xl:grid-cols-3 gap-8 animate-fade-up delay-200">
             <div className="p-8 bg-white border border-zinc-200 shadow-sm xl:col-span-1">
               <h2 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 bg-zinc-900 rounded-full"></span> Foto Utama Beranda
@@ -238,7 +281,6 @@ export default function KoleksiPage() {
               </form>
             </div>
 
-            {/* PANEL 2: TAMBAH KATALOG BARU */}
             <div className="p-8 bg-white border border-zinc-200 shadow-sm xl:col-span-2">
               <h2 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 bg-zinc-900 rounded-full"></span> Tambah Data Katalog
@@ -261,24 +303,21 @@ export default function KoleksiPage() {
                     <label className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2 block">Foto Produk (Maks 800KB)</label>
                     <input type="file" id="product-upload" accept="image/*" onChange={(e) => handleFileToBase64(e, setImageBase64)} className="block w-full text-sm text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-zinc-100 file:text-zinc-900 hover:file:bg-zinc-200 cursor-pointer" required />
                   </div>
-                  <button type="submit" className="bg-zinc-900 text-white font-bold py-3 px-8 uppercase tracking-widest text-xs hover:bg-zinc-800 transition-colors w-full sm:w-auto h-[40px]">
-                    Simpan
-                  </button>
+                  <button type="submit" className="bg-zinc-900 text-white font-bold py-3 px-8 uppercase tracking-widest text-xs hover:bg-zinc-800 transition-colors w-full sm:w-auto h-[40px]">Simpan</button>
                 </div>
               </form>
             </div>
           </div> 
         )}
 
-        {/* Grid Katalog */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {products.map((item) => (
+        {/* GRID KATALOG */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 animate-fade-up delay-200">
+          {filteredProducts.map((item) => (
             <div key={item.id} className="group flex flex-col">
               <div className="bg-zinc-100 aspect-[4/3] overflow-hidden mb-6 relative">
                 <img src={item.gambar} alt={item.nama} className="w-full h-full object-cover mix-blend-darken transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="flex flex-col flex-grow">
-                {/* BAGIAN HARGA DI BAWAH JUDUL */}
                 <div className="flex flex-col items-start mb-3">
                   <h3 className="text-lg font-bold text-zinc-900 tracking-tight uppercase leading-tight mb-1">{item.nama}</h3>
                   <p className="font-bold text-zinc-500 tracking-wider">Rp {item.harga.toLocaleString('id-ID')}</p>
@@ -298,16 +337,19 @@ export default function KoleksiPage() {
               </div>
             </div>
           ))}
-          {products.length === 0 && <p className="col-span-full text-zinc-400 py-10 font-medium">Belum ada koleksi yang tersedia.</p>}
+          {filteredProducts.length === 0 && (
+            <div className="col-span-full py-20 text-center border border-zinc-200 bg-white">
+              <p className="text-zinc-900 font-bold tracking-widest uppercase mb-2">Pencarian Tidak Ditemukan</p>
+              <p className="text-zinc-500 font-medium text-sm">Coba gunakan kata kunci kacamata yang lain.</p>
+            </div>
+          )}
         </div>
       </div>
 
-{/* FOOTER DENGAN MAPS (DIPERKECIL) */}
+      {/* FOOTER MAPS */}
       <footer className="bg-white border-t border-zinc-200 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
-            
-            {/* Bagian Kiri: Info & Link (Porsi diperbesar jadi 7 kolom) */}
             <div className="md:col-span-7 flex flex-col justify-between">
               <div>
                 <h3 className="font-black text-2xl tracking-tighter text-zinc-900 uppercase mb-6">Optik Aaliyah.</h3>
@@ -326,15 +368,13 @@ export default function KoleksiPage() {
                 <div>
                   <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-xs mb-6">Kontak</h4>
                   <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                    <li>Puri Indah Df 19, Sidoarjo, Jawa Timur</li>
-                    <li>+62 822 6477 4367</li>
-                    <li>Yuniartiunimawarni@gmail.com</li>
+                    <li>Sidoarjo, Jawa Timur</li>
+                    <li>+62 812-3456-7890</li>
+                    <li>halo@optikaaliyah.com</li>
                   </ul>
                 </div>
               </div>
             </div>
-
-            {/* Bagian Kanan: GOOGLE MAPS (Porsi diperkecil jadi 5 kolom, tinggi disesuaikan) */}
             <div className="md:col-span-5 w-full h-64 md:h-72 bg-zinc-100 border border-zinc-200 p-2">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.102594091213!2d112.6823516760512!3d-7.453901273464231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e591ba40e1f9%3A0x1ee871e6ac517c61!2sOptik%20Aaliyah!5e0!3m2!1sid!2sid!4v1776056666993!5m2!1sid!2sid" 
@@ -347,7 +387,6 @@ export default function KoleksiPage() {
                 className="filter grayscale hover:grayscale-0 transition-all duration-500"
               ></iframe>
             </div>
-
           </div>
           <div className="border-t border-zinc-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-400 text-xs font-bold uppercase tracking-widest">
             <p>© 2026 OPTIK AALIYAH.</p>
@@ -355,13 +394,15 @@ export default function KoleksiPage() {
           </div>
         </div>
       </footer>
-      
-      {/* MODAL 1: LOGIN/REGISTER */}
+
+      {/* MODAL LOGIN */}
       {showAuthModal && (
         <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
           <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" onClick={() => setShowAuthModal(false)}></div>
-          <div className="bg-white p-10 w-full max-w-md relative shadow-2xl">
-            <button onClick={() => setShowAuthModal(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+          <div className="bg-white p-10 w-full max-w-md relative shadow-2xl animate-fade-up">
+            <button onClick={() => setShowAuthModal(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
             <h2 className="text-2xl font-black mb-8 text-zinc-900 tracking-tight uppercase">{isLoginMode ? "Masuk" : "Daftar Akun"}</h2>
             <form onSubmit={handleAuth} className="flex flex-col gap-5">
               <div>
@@ -372,10 +413,12 @@ export default function KoleksiPage() {
                 <label className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2 block">Password</label>
                 <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} className="w-full p-4 bg-zinc-50 border border-zinc-200 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-all rounded-none" required minLength={6} />
               </div>
-              <button type="submit" className="bg-zinc-900 text-white font-bold py-4 mt-4 uppercase tracking-widest text-sm hover:bg-zinc-800 transition-colors">{isLoginMode ? "Masuk" : "Daftar"}</button>
+              <button type="submit" className="bg-zinc-900 text-white font-bold py-4 mt-4 uppercase tracking-widest text-sm hover:bg-zinc-800 transition-colors">{isLoginMode ? "Masuk Sekarang" : "Daftar Sekarang"}</button>
             </form>
             <div className="mt-8 pt-6 border-t border-zinc-100 text-center">
-              <button onClick={() => setIsLoginMode(!isLoginMode)} className="text-xs font-bold text-zinc-500 hover:text-zinc-900 uppercase tracking-widest transition-colors">{isLoginMode ? "Belum Punya Akun? Daftar" : "Sudah Punya Akun? Masuk"}</button>
+              <button onClick={() => setIsLoginMode(!isLoginMode)} className="text-xs font-bold text-zinc-500 hover:text-zinc-900 uppercase tracking-widest transition-colors">
+                {isLoginMode ? "Belum Punya Akun? Daftar" : "Sudah Punya Akun? Masuk"}
+              </button>
             </div>
           </div>
         </div>
@@ -385,7 +428,7 @@ export default function KoleksiPage() {
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
           <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" onClick={() => setIsEditModalOpen(false)}></div>
-          <div className="bg-white p-10 w-full max-w-lg relative shadow-2xl">
+          <div className="bg-white p-10 w-full max-w-lg relative shadow-2xl animate-fade-up">
             <button onClick={() => setIsEditModalOpen(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             <h2 className="text-2xl font-black mb-8 text-zinc-900 tracking-tight uppercase">Revisi Data</h2>
             <form onSubmit={handleUpdateProduct} className="flex flex-col gap-5">
