@@ -164,7 +164,7 @@ export default function KoleksiPage() {
       return; 
     }
     const text = `Halo Optik Aaliyah, saya tertarik dengan koleksi: *${namaBarang}*.`;
-    window.open(`https://wa.me//6285707116496${waNumber}?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   const filteredProducts = products.filter(product => 
