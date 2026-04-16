@@ -323,7 +323,7 @@ export default function KoleksiPage() {
                 
                 {isAdmin ? (
                   <div className="mt-auto border-t border-zinc-200 pt-4 flex gap-3">
-                    <button onClick={() => openEditModal(item)} className="w-1/2 border border-zinc-200 text-zinc-900 font-bold py-3 hover:bg-zinc-50 transition-colors uppercase text-xs tracking-widest">Revisi</button>
+                    <button onClick={() => openEditModal(item)} className="w-1/2 border border-zinc-200 text-zinc-900 font-bold py-3 hover:bg-zinc-50 transition-colors uppercase text-xs tracking-widest">Edit</button>
                     <button onClick={() => handleDelete(item.id)} className="w-1/2 bg-red-50 text-red-600 font-bold py-3 hover:bg-red-100 transition-colors uppercase text-xs tracking-widest">Hapus</button>
                   </div>
                 ) : (
