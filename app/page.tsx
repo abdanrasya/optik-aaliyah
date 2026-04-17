@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { db, auth } from "../lib/firebase"; 
 import { collection, query, limit, onSnapshot, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
@@ -24,6 +24,99 @@ export default function LandingPage() {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(""), 3000);
   };
+
+  // ==========================================
+  // STATE & REF UNTUK VIRTUAL TRY-ON (KAMERA AI)
+  // ==========================================
+  const [isTryOnOpen, setIsTryOnOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [tryOnResult, setTryOnResult] = useState<string | null>(null);
+  const [detectedShapes, setDetectedShapes] = useState<string[]>([]);
+  const [glassesIndex, setGlassesIndex] = useState(0);
+  
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
+  // Fungsi Buka Kamera
+  const openCamera = async () => {
+    setIsTryOnOpen(true);
+    setTryOnResult(null);
+    setDetectedShapes([]);
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setStream(mediaStream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
+    } catch (err) {
+      showToast("GAGAL MENGAKSES KAMERA");
+      console.error(err);
+    }
+  };
+
+  // Fungsi Tutup Kamera
+  const closeCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setIsTryOnOpen(false);
+  };
+
+  // Fungsi Ambil Foto & Kirim ke API AI Python
+  const captureAndProcess = async () => {
+    if (!videoRef.current || !canvasRef.current) return;
+    
+    setIsProcessing(true);
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    
+    // Samakan ukuran canvas dengan video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Ubah gambar di canvas jadi file
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          setIsProcessing(false);
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", blob, "capture.jpg");
+
+        try {
+          // HIT API FASTAPI PYTHON TEMENMU DI LOCALHOST:8000
+          const response = await fetch(`http://localhost:8000/predict?glasses_index=${glassesIndex}`, {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.detail || "Gagal memproses gambar");
+          }
+
+          const data = await response.json();
+          // Set hasil gambar base64 dari AI
+          setTryOnResult(`data:image/png;base64,${data.image}`);
+          // Set hasil deteksi bentuk wajah
+          setDetectedShapes(data.faces.map((f: any) => f.shape));
+          
+        } catch (error: any) {
+          showToast(error.message.toUpperCase());
+        } finally {
+          setIsProcessing(false);
+        }
+      }, 'image/jpeg');
+    }
+  };
+  // ==========================================
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -76,7 +169,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white">
+    <main className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white relative">
       
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
@@ -239,8 +332,9 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <button onClick={() => alert('Integrasi AI Kamera sedang dikembangkan. Segera Hadir!')} className="group flex items-center justify-center sm:justify-start gap-4 bg-zinc-900 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs hover:bg-zinc-800 transition-all w-full sm:w-auto">
-                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+                {/* TOMBOL PEMICU MODAL KAMERA */}
+                <button onClick={openCamera} className="group flex items-center justify-center sm:justify-start gap-4 bg-zinc-900 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs hover:bg-zinc-800 transition-all w-full sm:w-auto shadow-lg shadow-zinc-900/20 hover:shadow-zinc-900/40">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
                   Coba Filter Kamera AI
                   <svg className="w-4 h-4 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </button>
@@ -252,7 +346,7 @@ export default function LandingPage() {
                   <svg className="w-10 h-10 mx-auto text-zinc-900 mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                   <h3 className="font-bold text-zinc-900 uppercase tracking-widest text-sm mb-3">Pemindai Wajah AR</h3>
                   <p className="text-xs text-zinc-500 font-medium leading-relaxed">
-                    Izinkan akses kamera untuk memindai struktur wajah secara <span className="text-zinc-900 font-bold">real-time</span>.
+                    Terintegrasi langsung dengan Engine <span className="text-zinc-900 font-bold">TensorFlow AI</span> untuk deteksi 5 bentuk wajah secara akurat.
                   </p>
                 </div>
               </div>
@@ -290,7 +384,7 @@ export default function LandingPage() {
 
       </div>
 
-      {/* FOOTER MAPS (INFO UPDATE DARI KARTU NAMA) */}
+      {/* FOOTER MAPS */}
       <footer className="bg-zinc-900 border-t border-zinc-900 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
@@ -339,9 +433,78 @@ export default function LandingPage() {
         </div>
       </footer>
 
+      {/* ============================================================ */}
+      {/* MODAL VIRTUAL TRY-ON AI */}
+      {/* ============================================================ */}
+      {isTryOnOpen && (
+        <div className="fixed inset-0 z-[60] flex justify-center items-center p-4">
+          <div className="absolute inset-0 bg-zinc-900/90 backdrop-blur-md" onClick={closeCamera}></div>
+          <div className="bg-white w-full max-w-4xl relative shadow-2xl animate-fade-up overflow-hidden flex flex-col md:flex-row">
+            <button onClick={closeCamera} className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 z-10 bg-white p-1 rounded-full shadow-sm">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            
+            {/* Bagian Kiri: Kamera / Hasil */}
+            <div className="w-full md:w-3/5 bg-zinc-100 relative aspect-[4/3] flex items-center justify-center">
+              {isProcessing && (
+                <div className="absolute inset-0 z-20 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
+                  <svg className="animate-spin h-8 w-8 text-zinc-900 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <p className="text-xs font-bold tracking-widest text-zinc-900 uppercase animate-pulse">Memindai Wajah & Mencocokkan Kacamata...</p>
+                </div>
+              )}
+              
+              {tryOnResult ? (
+                <img src={tryOnResult} alt="Hasil Try On" className="w-full h-full object-contain" />
+              ) : (
+                <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover transform scale-x-[-1]"></video>
+              )}
+              
+              {/* Canvas tersembunyi buat ngambil foto */}
+              <canvas ref={canvasRef} className="hidden"></canvas>
+            </div>
+
+            {/* Bagian Kanan: Kontrol AI */}
+            <div className="w-full md:w-2/5 p-8 flex flex-col justify-center">
+              <h2 className="text-2xl font-black mb-2 text-zinc-900 tracking-tight uppercase">AI Face Scanner</h2>
+              <p className="text-sm text-zinc-500 mb-8 leading-relaxed font-medium">
+                Posisikan wajahmu di tengah layar. Engine TensorFlow kami akan memindai struktur rahang dan memberikan overlay kacamata.
+              </p>
+
+              {tryOnResult && detectedShapes.length > 0 ? (
+                <div className="mb-8 border border-green-200 bg-green-50 p-4">
+                  <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-1">Hasil Deteksi:</p>
+                  <h3 className="text-2xl font-black text-green-900 uppercase">{detectedShapes.join(", ")} Face</h3>
+                </div>
+              ) : (
+                <div className="mb-8 flex items-center justify-between border border-zinc-200 p-4">
+                  <div>
+                    <p className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-1">Opsi Kacamata</p>
+                    <p className="text-xs text-zinc-500 font-medium">Ganti model filter</p>
+                  </div>
+                  <input type="number" min="0" max="10" value={glassesIndex} onChange={(e) => setGlassesIndex(Number(e.target.value))} className="w-16 p-2 text-center font-bold border border-zinc-300 focus:outline-none focus:border-zinc-900" />
+                </div>
+              )}
+
+              {tryOnResult ? (
+                <button onClick={() => setTryOnResult(null)} className="bg-white border-2 border-zinc-900 text-zinc-900 font-bold py-4 uppercase tracking-widest text-sm hover:bg-zinc-50 transition-colors w-full">
+                  Ulangi Pindai
+                </button>
+              ) : (
+                <button onClick={captureAndProcess} disabled={isProcessing} className="bg-zinc-900 text-white font-bold py-4 uppercase tracking-widest text-sm hover:bg-zinc-800 transition-colors w-full disabled:bg-zinc-400">
+                  Ambil Foto & Analisis
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* MODAL LOGIN */}
       {showAuthModal && (
-        <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
+        <div className="fixed inset-0 z-[70] flex justify-center items-center p-4">
           <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" onClick={() => setShowAuthModal(false)}></div>
           <div className="bg-white p-10 w-full max-w-md relative shadow-2xl animate-fade-up">
             <button onClick={() => setShowAuthModal(false)} className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-900">
