@@ -120,7 +120,7 @@ export default function LandingPage() {
     <main style={{ background:"#f7f3ee", color:"#1a1410", fontFamily:"'Cormorant Garamond','Georgia',serif", minHeight:"100vh", overflowX:"hidden" }}>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:2px}
         ::-webkit-scrollbar-track{background:#f7f3ee}
@@ -143,17 +143,17 @@ export default function LandingPage() {
         .reveal.in{opacity:1;transform:translateY(0)}
         .d1{transition-delay:.07s}.d2{transition-delay:.18s}.d3{transition-delay:.29s}.d4{transition-delay:.42s}.d5{transition-delay:.56s}
 
-        .eyebrow{font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:.45em;text-transform:uppercase;color:#b09878;display:flex;align-items:center;gap:14px}
+        .eyebrow{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:.4em;text-transform:uppercase;color:#b09878;display:flex;align-items:center;gap:14px}
         .eyebrow::before{content:'';width:28px;height:1px;background:#b09878;flex-shrink:0}
 
-        .nav-a{position:relative;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:rgba(26,20,16,.45);transition:color .3s;background:none;border:none;cursor:pointer}
+        .nav-a{position:relative;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:rgba(26,20,16,.72);transition:color .3s;background:none;border:none;cursor:pointer}
         .nav-a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:#8a6a44;transition:width .3s}
         .nav-a:hover{color:#8a6a44}.nav-a:hover::after{width:100%}
 
-        .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#1a1410;color:#f7f3ee;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;border:none;padding:15px 36px;cursor:pointer;transition:background .3s,transform .2s}
+        .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#1a1410;color:#f7f3ee;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;border:none;padding:16px 38px;cursor:pointer;transition:background .3s,transform .2s}
         .btn-dark:hover{background:#2e251e;transform:translateY(-2px)}
 
-        .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:#1a1410;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;border:1px solid rgba(26,20,16,.3);padding:14px 30px;cursor:pointer;text-decoration:none;transition:all .3s}
+        .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:#1a1410;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;border:1px solid rgba(26,20,16,.3);padding:15px 32px;cursor:pointer;text-decoration:none;transition:all .3s}
         .btn-outline:hover{background:#1a1410;color:#f7f3ee;border-color:#1a1410}
 
         .prod-card{transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .4s;cursor:pointer}
@@ -178,7 +178,7 @@ export default function LandingPage() {
         .modal-box{background:#faf7f2;border:1px solid rgba(26,20,16,.1);width:100%;position:relative;animation:fadeInUp .35s ease;padding:52px;max-height:90vh;overflow-y:auto}
         .modal-input{width:100%;padding:13px 16px;background:#fff;border:1px solid rgba(26,20,16,.15);color:#1a1410;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .3s}
         .modal-input:focus{border-color:#8a6a44}
-        .modal-label{font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:.4em;text-transform:uppercase;color:rgba(26,20,16,.45);display:block;margin-bottom:9px}
+        .modal-label{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:rgba(26,20,16,.62);display:block;margin-bottom:9px}
       `}} />
 
       <div className="grain" />
@@ -194,23 +194,23 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════════════════════════ */}
-      <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:100,padding:navScrolled?"15px 48px":"26px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",background:navScrolled?"rgba(247,243,238,.95)":"transparent",backdropFilter:navScrolled?"blur(16px)":"none",borderBottom:navScrolled?"1px solid rgba(26,20,16,.08)":"1px solid transparent",transition:"all .5s cubic-bezier(.16,1,.3,1)" }}>
-        <div style={{ display:"flex",gap:36,alignItems:"center" }}>
+      <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:100,padding:navScrolled?"18px 56px":"30px 56px",display:"grid",gridTemplateColumns:"1fr auto 1fr",alignItems:"center",background:navScrolled?"rgba(247,243,238,.95)":"transparent",backdropFilter:navScrolled?"blur(16px)":"none",borderBottom:navScrolled?"1px solid rgba(26,20,16,.08)":"1px solid transparent",transition:"all .5s cubic-bezier(.16,1,.3,1)" }}>
+        <div style={{ display:"flex",gap:36,alignItems:"center",justifySelf:"start" }}>
           <Link href="/" className="nav-a">Beranda</Link>
           <Link href="/koleksi" className="nav-a">Katalog</Link>
         </div>
 
         {/* Center logo */}
-        <Link href="/" style={{ textDecoration:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:5 }}>
-          <svg width="30" height="15" viewBox="0 0 30 15" fill="none">
+        <Link href="/" style={{ textDecoration:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:6,justifySelf:"center" }}>
+          <svg width="36" height="18" viewBox="0 0 30 15" fill="none">
             <rect x=".5" y=".5" width="12" height="14" rx="6" stroke="#8a6a44" strokeWidth="1"/>
             <rect x="17.5" y=".5" width="12" height="14" rx="6" stroke="#8a6a44" strokeWidth="1"/>
             <line x1="12" y1="7.5" x2="18" y2="7.5" stroke="#8a6a44" strokeWidth="1"/>
           </svg>
-          <span style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:17,fontWeight:600,letterSpacing:".18em",color:"#1a1410",textTransform:"uppercase" }}>Optik Aaliyah</span>
+          <span style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:21,fontWeight:600,letterSpacing:".13em",color:"#1a1410",textTransform:"uppercase" }}>Optik Aaliyah</span>
         </Link>
 
-        <div style={{ display:"flex",gap:36,alignItems:"center" }}>
+        <div style={{ display:"flex",gap:36,alignItems:"center",justifySelf:"end" }}>
           {user ? (
             <>
               <span className="nav-a" style={{ cursor:"default",color:"#b09878" }}>{isAdmin?"Admin":user.email?.split("@")[0]}</span>
@@ -228,7 +228,7 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════════════════ */}
-      <section style={{ position:"relative",minHeight:"100vh",display:"flex",alignItems:"center",overflow:"hidden",background:"#f7f3ee" }}>
+      <section style={{ position:"relative",minHeight:"100vh",paddingTop:110,display:"flex",alignItems:"center",overflow:"hidden",background:"#f7f3ee" }}>
 
         {/* Warm background texture */}
         <div style={{ position:"absolute",inset:"-10%",backgroundImage:"url('https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=2073')",backgroundSize:"cover",backgroundPosition:"center",transform:`translateY(${heroBgY}px)`,opacity:.07,filter:"sepia(1)",transition:"none" }}/>
@@ -257,7 +257,7 @@ export default function LandingPage() {
           {/* Left */}
           <div>
             {heroVisible && <p className="eyebrow" style={{ marginBottom:32,animation:"fadeInUp .8s .05s both" }}>Koleksi Eyewear Premium</p>}
-            <h1 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(52px,6.5vw,88px)",fontWeight:300,lineHeight:.95,letterSpacing:"-.02em",marginBottom:40 }}>
+            <h1 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(52px,6.5vw,88px)",fontWeight:400,lineHeight:.95,letterSpacing:"-.02em",marginBottom:40 }}>
               {heroVisible && (
                 <>
                   <span className="h-line"><span className="h-line-inner l0" style={{ color:"#1a1410" }}>Visi yang</span></span>
@@ -268,7 +268,7 @@ export default function LandingPage() {
             </h1>
             {heroVisible && (
               <>
-                <p style={{ fontFamily:"'Jost',sans-serif",fontSize:14,fontWeight:300,lineHeight:1.85,color:"rgba(26,20,16,.5)",maxWidth:400,marginBottom:48,animation:"fadeInUp .9s .52s both" }}>
+                <p style={{ fontFamily:"'Jost',sans-serif",fontSize:14,fontWeight:400,lineHeight:1.85,color:"rgba(26,20,16,.72)",maxWidth:400,marginBottom:48,animation:"fadeInUp .9s .52s both" }}>
                   Eyewear premium lahir dari semangat Sidoarjo—memadukan material superior dengan estetika yang tak lekang oleh waktu.
                 </p>
                 <div style={{ display:"flex",gap:14,flexWrap:"wrap",animation:"fadeInUp .9s .66s both" }}>
@@ -281,8 +281,8 @@ export default function LandingPage() {
                 <div style={{ marginTop:60,paddingTop:36,borderTop:"1px solid rgba(26,20,16,.1)",display:"flex",gap:48,animation:"fadeInUp .9s .82s both" }}>
                   {[["200+","Frame"],["5K+","Pelanggan"],["8","Tahun"]].map(([n,l]) => (
                     <div key={l}>
-                      <div style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:40,fontWeight:300,color:"#8a6a44",lineHeight:1 }}>{n}</div>
-                      <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,letterSpacing:".35em",textTransform:"uppercase",color:"rgba(26,20,16,.35)",marginTop:5 }}>{l}</div>
+                      <div style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:40,fontWeight:400,color:"#8a6a44",lineHeight:1 }}>{n}</div>
+                      <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,fontWeight:500,letterSpacing:".35em",textTransform:"uppercase",color:"rgba(26,20,16,.55)",marginTop:5 }}>{l}</div>
                     </div>
                   ))}
                 </div>
@@ -335,7 +335,7 @@ export default function LandingPage() {
         </svg>
 
         <div style={{ position:"relative",zIndex:2,maxWidth:760,margin:"0 auto" }}>
-          <h2 className={`reveal ${vis.has("s2")?"in":""}`} style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(34px,5.5vw,70px)",fontWeight:300,lineHeight:1.12,color:"#1a1410",marginBottom:44 }}>
+          <h2 className={`reveal ${vis.has("s2")?"in":""}`} style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(34px,5.5vw,70px)",fontWeight:400,lineHeight:1.12,color:"#1a1410",marginBottom:44 }}>
             Eyewear terbaik untuk<br/>
             <em style={{ fontStyle:"italic",color:"#8a6a44" }}>setiap cerita hidupmu.</em>
           </h2>
@@ -360,7 +360,7 @@ export default function LandingPage() {
           <div className={`reveal ${vis.has("s3")?"in":""}`} style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:80,paddingBottom:32,borderBottom:"1px solid rgba(26,20,16,.1)" }}>
             <div>
               <p className="eyebrow" style={{ marginBottom:16 }}>Koleksi Terkini</p>
-              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(36px,5vw,62px)",fontWeight:300,lineHeight:.95,letterSpacing:"-.01em",color:"#1a1410" }}>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(36px,5vw,62px)",fontWeight:400,lineHeight:.95,letterSpacing:"-.01em",color:"#1a1410" }}>
                 Frame <em style={{ fontStyle:"italic",color:"#8a6a44" }}>Pilihan</em><br/>
                 <span className="gold-shimmer">Bulan Ini.</span>
               </h2>
@@ -387,7 +387,7 @@ export default function LandingPage() {
                     <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,fontWeight:400,letterSpacing:".4em",textTransform:"uppercase",color:"#b09878",marginBottom:7 }}>Optik Aaliyah</div>
                     <h3 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:400,color:"#1a1410",marginBottom:5 }}>{item.nama}</h3>
                     <p style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#8a6a44",fontStyle:"italic",marginBottom:9 }}>Rp {item.harga?.toLocaleString("id-ID")}</p>
-                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:12,color:"rgba(26,20,16,.4)",lineHeight:1.7,fontWeight:300,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{item.deskripsi}</p>
+                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:12,color:"rgba(26,20,16,.7)",lineHeight:1.7,fontWeight:400,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{item.deskripsi}</p>
                   </div>
                 </div>
               );
@@ -409,14 +409,14 @@ export default function LandingPage() {
               Temukan<br/><em style={{ fontStyle:"italic",color:"#8a6a44" }}>Frame Sempurna</em><br/>
               <span style={{ color:"transparent",WebkitTextStroke:"1px rgba(26,20,16,.15)" }}>Untukmu.</span>
             </h2>
-            <p className={`reveal d2 ${vis.has("s4")?"in":""}`} style={{ fontFamily:"'Jost',sans-serif",fontSize:14,fontWeight:300,color:"rgba(26,20,16,.45)",lineHeight:1.85,marginBottom:48,maxWidth:420 }}>
+            <p className={`reveal d2 ${vis.has("s4")?"in":""}`} style={{ fontFamily:"'Jost',sans-serif",fontSize:14,fontWeight:400,color:"rgba(26,20,16,.7)",lineHeight:1.85,marginBottom:48,maxWidth:420 }}>
               Engine TensorFlow kami mendeteksi 5 bentuk wajah dan memberikan overlay kacamata real-time—layaknya stylist pribadi dalam genggamanmu.
             </p>
             <div className={`reveal d3 ${vis.has("s4")?"in":""}`} style={{ border:"1px solid rgba(26,20,16,.1)",display:"grid",gridTemplateColumns:"1fr 1fr",marginBottom:48 }}>
               {[["Wajah Bulat","Frame Square — ilusi tirus"],["Wajah Persegi","Frame Round — lembutkan rahang"],["Wajah Oval","Bebas eksplorasi semua siluet"],["Wajah Hati","Aviator — melebar di bawah"]].map(([s,r],i) => (
                 <div key={s} className="face-card" style={{ borderRight:i%2===0?"1px solid rgba(26,20,16,.1)":"none",borderBottom:i<2?"1px solid rgba(26,20,16,.1)":"none" }}>
                   <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,fontWeight:500,letterSpacing:".35em",textTransform:"uppercase",color:"#8a6a44",marginBottom:5 }}>{s}</div>
-                  <div style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:300,color:"rgba(26,20,16,.38)",lineHeight:1.6 }}>{r}</div>
+                  <div style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:400,color:"rgba(26,20,16,.68)",lineHeight:1.6 }}>{r}</div>
                 </div>
               ))}
             </div>
@@ -449,7 +449,7 @@ export default function LandingPage() {
             {["Deteksi 5 bentuk wajah real-time","Overlay AR pada 68 titik wajah","Rekomendasi frame akurasi 94%","TensorFlow + MediaPipe engine"].map((f,i) => (
               <div key={f} style={{ display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:i<3?"1px solid rgba(26,20,16,.07)":"none" }}>
                 <div className="dot-pulse" style={{ width:5,height:5,borderRadius:"50%",background:"#b09878",flexShrink:0,animationDelay:`${i*.35}s` }}/>
-                <span style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:300,color:"rgba(26,20,16,.55)" }}>{f}</span>
+                <span style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:400,color:"rgba(26,20,16,.72)" }}>{f}</span>
               </div>
             ))}
             <button onClick={openCamera} className="btn-dark" style={{ width:"100%",marginTop:28 }}>Buka Kamera Sekarang</button>
@@ -466,20 +466,20 @@ export default function LandingPage() {
           <div style={{ display:"grid",gridTemplateColumns:"5fr 7fr",gap:80,alignItems:"start" }}>
             <div className={`reveal ${vis.has("s5")?"in":""}`}>
               <p className="eyebrow" style={{ marginBottom:24 }}>Tentang Kami</p>
-              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(44px,6vw,76px)",fontWeight:300,lineHeight:.92,letterSpacing:"-.02em" }}>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(44px,6vw,76px)",fontWeight:400,lineHeight:.92,letterSpacing:"-.02em" }}>
                 Optik<br/>Aaliyah<br/>
                 <span style={{ color:"transparent",WebkitTextStroke:"1px rgba(26,20,16,.15)",fontStyle:"italic" }}>Manifesto.</span>
               </h2>
             </div>
             <div style={{ background:"#fff",border:"1px solid rgba(26,20,16,.08)",padding:"44px 52px",boxShadow:"0 8px 40px rgba(26,20,16,.05)" }}>
-              <p className={`reveal d1 ${vis.has("s5")?"in":""}`} style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:21,fontWeight:300,lineHeight:1.78,color:"rgba(26,20,16,.6)",marginBottom:44 }}>
+              <p className={`reveal d1 ${vis.has("s5")?"in":""}`} style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:21,fontWeight:400,lineHeight:1.78,color:"rgba(26,20,16,.75)",marginBottom:44 }}>
                 Lahir di Sidoarjo dengan semangat mengubah cara dunia melihat Anda. Kami percaya kacamata bukan sekadar alat bantu—melainkan pernyataan gaya paling mendalam.
               </p>
               <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:28,paddingTop:36,borderTop:"1px solid rgba(26,20,16,.08)" }}>
                 {[{ h:"Visi Kami",p:"Menjadi standar baru kurasi eyewear yang menggabungkan kualitas material superior dengan desain tak lekang waktu." },{ h:"Filosofi",p:"Setiap frame dipilih dengan presisi tinggi—keseimbangan sempurna antara kenyamanan dan estetika." }].map((m,i) => (
                   <div key={m.h} className={`reveal d${i+2} ${vis.has("s5")?"in":""}`}>
                     <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,fontWeight:500,letterSpacing:".4em",textTransform:"uppercase",color:"#b09878",marginBottom:13 }}>{m.h}</div>
-                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:13,fontWeight:300,color:"rgba(26,20,16,.4)",lineHeight:1.8 }}>{m.p}</p>
+                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:13,fontWeight:400,color:"rgba(26,20,16,.68)",lineHeight:1.8 }}>{m.p}</p>
                   </div>
                 ))}
               </div>
@@ -491,25 +491,25 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════════════════════ */}
-      <footer style={{ background:"#1a1410",borderTop:"1px solid rgba(26,20,16,.2)",padding:"68px 48px 36px" }}>
+      <footer style={{ background:"#1a1410",borderTop:"1px solid rgba(26,20,16,.2)",padding:"76px 48px 40px" }}>
         <div style={{ maxWidth:1160,margin:"0 auto" }}>
           <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:56,marginBottom:48,paddingBottom:44,borderBottom:"1px solid rgba(247,243,238,.1)" }}>
             <div>
-              <div style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:300,letterSpacing:".05em",color:"#f7f3ee",marginBottom:5 }}>
+              <div style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:44,fontWeight:400,letterSpacing:".04em",color:"#f7f3ee",marginBottom:8 }}>
                 Optik <span style={{ color:"#b09878",fontStyle:"italic" }}>Aaliyah.</span>
               </div>
-              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:11,letterSpacing:".25em",textTransform:"uppercase",color:"rgba(247,243,238,.25)",marginBottom:28 }}>Eyewear Premium · Sidoarjo, ID</p>
-              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:13,fontWeight:300,color:"rgba(247,243,238,.3)",lineHeight:1.8,maxWidth:300 }}>Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.</p>
+              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:13,fontWeight:500,letterSpacing:".2em",textTransform:"uppercase",color:"rgba(247,243,238,.42)",marginBottom:28 }}>Eyewear Premium · Sidoarjo, ID</p>
+              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:16,fontWeight:400,color:"rgba(247,243,238,.62)",lineHeight:1.8,maxWidth:340 }}>Mendefinisikan ulang gaya kacamata dengan kurasi frame premium berkualitas tinggi.</p>
             </div>
             <div style={{ display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:20 }}>
               {[{ h:"Navigasi",l:["Beranda","Katalog","AI Try-On"] },{ h:"Info",l:["Tentang Kami","Panduan Frame","Perawatan"] },{ h:"Kontak",l:["Puri Indah Df 19","Sidoarjo, Jawa Timur","+62 822-6477-4367"] }].map(g => (
                 <div key={g.h}>
-                  <div style={{ fontFamily:"'Jost',sans-serif",fontSize:9,fontWeight:500,letterSpacing:".4em",textTransform:"uppercase",color:"rgba(176,152,120,.55)",marginBottom:18 }}>{g.h}</div>
+                  <div style={{ fontFamily:"'Jost',sans-serif",fontSize:11,fontWeight:600,letterSpacing:".34em",textTransform:"uppercase",color:"rgba(176,152,120,.72)",marginBottom:18 }}>{g.h}</div>
                   <ul style={{ listStyle:"none",display:"flex",flexDirection:"column",gap:10 }}>
                     {g.l.map(li => (
-                      <li key={li} style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:300,color:"rgba(247,243,238,.28)",cursor:"pointer",transition:"color .25s" }}
+                      <li key={li} style={{ fontFamily:"'Jost',sans-serif",fontSize:15,fontWeight:400,color:"rgba(247,243,238,.58)",cursor:"pointer",transition:"color .25s" }}
                         onMouseEnter={e => (e.currentTarget.style.color="#b09878")}
-                        onMouseLeave={e => (e.currentTarget.style.color="rgba(247,243,238,.28)")}
+                        onMouseLeave={e => (e.currentTarget.style.color="rgba(247,243,238,.58)")}
                       >{li}</li>
                     ))}
                   </ul>
@@ -523,8 +523,8 @@ export default function LandingPage() {
               allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
           </div>
           <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center" }}>
-            <p style={{ fontFamily:"'Jost',sans-serif",fontSize:10,letterSpacing:".25em",textTransform:"uppercase",color:"rgba(247,243,238,.18)" }}>© 2026 Optik Aaliyah. All rights reserved.</p>
-            <div style={{ display:"flex",alignItems:"center",gap:8,fontFamily:"'Jost',sans-serif",fontSize:10,letterSpacing:".25em",textTransform:"uppercase",color:"rgba(176,152,120,.38)" }}>
+            <p style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:500,letterSpacing:".2em",textTransform:"uppercase",color:"rgba(247,243,238,.38)" }}>© 2026 Optik Aaliyah. All rights reserved.</p>
+            <div style={{ display:"flex",alignItems:"center",gap:8,fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:500,letterSpacing:".2em",textTransform:"uppercase",color:"rgba(176,152,120,.56)" }}>
               <div className="dot" style={{ width:5,height:5,borderRadius:"50%",background:"#b09878" }}/>
               Sidoarjo, ID
             </div>
@@ -556,10 +556,10 @@ export default function LandingPage() {
             </div>
             <div style={{ width:"40%",padding:40,display:"flex",flexDirection:"column",justifyContent:"center" }}>
               <p className="eyebrow" style={{ marginBottom:12,fontSize:9 }}>AI Face Scanner</p>
-              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:300,color:"#1a1410",marginBottom:14,lineHeight:1.08 }}>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:400,color:"#1a1410",marginBottom:14,lineHeight:1.08 }}>
                 Coba Frame<br/><em style={{ fontStyle:"italic",color:"#8a6a44" }}>Virtualmu.</em>
               </h2>
-              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:300,color:"rgba(26,20,16,.4)",lineHeight:1.75,marginBottom:30 }}>Posisikan wajahmu di tengah layar. Engine kami memindai dan overlay kacamata secara real-time.</p>
+              <p style={{ fontFamily:"'Jost',sans-serif",fontSize:12,fontWeight:400,color:"rgba(26,20,16,.68)",lineHeight:1.75,marginBottom:30 }}>Posisikan wajahmu di tengah layar. Engine kami memindai dan overlay kacamata secara real-time.</p>
               {tryOnResult && detectedShapes.length > 0 ? (
                 <div style={{ marginBottom:28,border:"1px solid rgba(138,106,68,.25)",background:"rgba(176,152,120,.08)",padding:18 }}>
                   <p style={{ fontFamily:"'Jost',sans-serif",fontSize:9,letterSpacing:".35em",textTransform:"uppercase",color:"#b09878",marginBottom:5 }}>Hasil Deteksi</p>
@@ -569,10 +569,10 @@ export default function LandingPage() {
                 <div style={{ marginBottom:28,border:"1px solid rgba(26,20,16,.1)",padding:"13px 17px",display:"flex",justifyContent:"space-between",alignItems:"center" }}>
                   <div>
                     <p style={{ fontFamily:"'Jost',sans-serif",fontSize:9,letterSpacing:".35em",textTransform:"uppercase",color:"rgba(26,20,16,.4)",marginBottom:3 }}>Model Kacamata</p>
-                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:11,fontWeight:300,color:"rgba(26,20,16,.25)" }}>Pilih nomor filter</p>
+                    <p style={{ fontFamily:"'Jost',sans-serif",fontSize:11,fontWeight:400,color:"rgba(26,20,16,.62)" }}>Pilih nomor filter</p>
                   </div>
                   <input type="number" min={0} max={10} value={glassesIndex} onChange={e => setGlassesIndex(Number(e.target.value))}
-                    style={{ width:50,padding:"7px 4px",textAlign:"center",background:"#f0ebe3",border:"1px solid rgba(26,20,16,.15)",color:"#8a6a44",fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:300,outline:"none" }}/>
+                    style={{ width:50,padding:"7px 4px",textAlign:"center",background:"#f0ebe3",border:"1px solid rgba(26,20,16,.15)",color:"#5c4020",fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:400,outline:"none" }}/>
                 </div>
               )}
               {tryOnResult
@@ -594,7 +594,7 @@ export default function LandingPage() {
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <p className="eyebrow" style={{ marginBottom:14,fontSize:9 }}>{isLoginMode?"Masuk Akun":"Buat Akun Baru"}</p>
-            <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:300,color:"#1a1410",marginBottom:38,lineHeight:1.08 }}>
+            <h2 style={{ fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:400,color:"#1a1410",marginBottom:38,lineHeight:1.08 }}>
               {isLoginMode ? <><span>Selamat</span><br/><em style={{ fontStyle:"italic",color:"#8a6a44" }}>Datang Kembali.</em></> : <><span>Bergabung</span><br/><em style={{ fontStyle:"italic",color:"#8a6a44" }}>Bersama Kami.</em></>}
             </h2>
             <form onSubmit={handleAuth} style={{ display:"flex",flexDirection:"column",gap:18 }}>
