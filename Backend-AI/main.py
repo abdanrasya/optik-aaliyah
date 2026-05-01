@@ -128,14 +128,23 @@ def main():
     args = parser.parse_args()
     
     # Initialize the service
-    service = HelmyVirtualTryOn('face_shape_model.h5', 'assets_2d')
+# 1. Initialize the service
+service = HelmyVirtualTryOn('face_shape_model.h5', 'assets_2d')
+
+# 2. This is the variable Render/Uvicorn looks for!
+app = service.create_web_app()
+
+if __name__ == '__main__':
+    import sys
     
-    if args.mode == 'web':
-        import uvicorn
-        print("🚀 Starting Web Server on http://localhost:8000")
-        uvicorn.run(service.create_web_app(), host='0.0.0.0', port=8000)
-    else:
+    # Check if you want to run the desktop version or local web server
+    # Usage: python main.py desktop
+    if len(sys.argv) > 1 and sys.argv[1] == 'desktop':
         service.run_desktop()
+    else:
+        import uvicorn
+        print("Starting local web server...")
+        uvicorn.run(app, host='0.0.0.0', port=8000)
 
 if __name__ == '__main__':
     main()

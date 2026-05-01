@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-# Install system dependencies
+# Install system dependencies for OpenCV and InsightFace
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -9,11 +9,15 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+# Copy the Backend-AI folder contents into the container
 COPY . .
 
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port FastAPI runs on
+# Render uses the $PORT environment variable
+ENV PORT=8000
 EXPOSE 8000
 
+# Start the app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
