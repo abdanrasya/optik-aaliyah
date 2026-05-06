@@ -6,42 +6,28 @@ from tensorflow.keras.models import Model
 from PIL import ImageFile
 import os
 
-# Cari lokasi folder script ini berada
-base_dir = os.path.dirname(os.path.abspath(__file__))
-# Gabungkan dengan nama folder Dataset
-import os
-
-# Gunakan path lengkap agar pasti ketemu
-dataset_path = r'C:\Users\Helmy\OneDrive\Documents\tugas_coding\dtp\Dataset'
-
-print(f"Mencoba membuka: {dataset_path}")
-
-# Cek apakah folder beneran ada
-if not os.path.exists(dataset_path):
-    print("ERROR: Folder Dataset tidak ditemukan! Cek penulisan nama foldernya.")
-else:
-    # List folder yang ada di dalam Dataset
-    isi_folder = os.listdir(dataset_path)
-    print(f"Isi di dalam folder Dataset: {isi_folder}")
-# Mengatasi gambar yang korup/terpotong
+# Mengatasi gambar yang korup
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-# 1. Konfigurasi Path (Pastikan folder Dataset berisi: heart, oblong, oval, round, square)
-dataset_path = 'Dataset' 
+# --- KONFIGURASI ---
+dataset_path = 'Dataset' # Pastikan folder ini ada di direktori yang sama
 IMG_SIZE = (288, 288)
 BATCH_SIZE = 32
 
-# 2. Augmentasi Data & Split Otomatis (80% Train, 20% Validasi)
+# 1. Augmentasi Data (Ditingkatkan agar model lebih tangguh)
 datagen = ImageDataGenerator(
     rescale=1./255,
-    rotation_range=20,
+    rotation_range=30,
     width_shift_range=0.2,
     height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    brightness_range=[0.8, 1.2],
     horizontal_flip=True,
     validation_split=0.2 
 )
 
-print("Memuat data...")
+print("⏳ Memuat data...")
 train_gen = datagen.flow_from_directory(
     dataset_path, target_size=IMG_SIZE, batch_size=BATCH_SIZE,
     class_mode='categorical', subset='training'
@@ -52,9 +38,11 @@ val_gen = datagen.flow_from_directory(
     class_mode='categorical', subset='validation'
 )
 
-# 3. Arsitektur Model EfficientNetB2
+# 2. Arsitektur Model EfficientNetB2
 base_model = EfficientNetB2(weights='imagenet', include_top=False, input_shape=(288, 288, 3))
-x = base_model.ou
+base_model.trainable = False # Freeze dulu agar bobot awal tidak rusak
+
+x = base_model.output # FIXED: perbaikan typo dari .ou
 x = GlobalAveragePooling2D()(x)
 x = Dense(256, activation='relu')(x)
 x = BatchNormalization()(x)
@@ -65,13 +53,21 @@ predictions = Dense(num_classes, activation='softmax')(x)
 
 model = Model(inputs=base_model.input, outputs=predictions)
 
-# 4. Compile & Training
-model.compile(optimizer=tf.keras.optimizers.Adam(0.001),
+# 3. Training Tahap 1: Hanya melatih Layer Atas
+print("🚀 Tahap 1: Melatih Head Model...")
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
               loss='categorical_crossentropy', metrics=['accuracy'])
 
-print(f"Kategori yang dipelajari: {list(train_gen.class_indices.keys())}")
-model.fit(train_gen, validation_data=val_gen, epochs=15)
+model.fit(train_gen, validation_data=val_gen, epochs=5)
+
+# 4. Training Tahap 2: Fine-Tuning (Membuka base_model)
+print("🚀 Tahap 2: Fine-Tuning seluruh model...")
+base_model.trainable = True
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), # LR lebih kecil
+              loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(train_gen, validation_data=val_gen, epochs=10)
 
 # 5. Simpan Model
 model.save('face_shape_model.h5')
-print("Model berhasil disimpan sebagai 'face_shape_model.h5'")
+print("✅ Selesai! Model disimpan sebagai 'face_shape_model.h5'")
