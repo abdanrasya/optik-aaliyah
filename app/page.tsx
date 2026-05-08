@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { db, auth } from "../lib/firebase"; 
-import { collection, query, limit, onSnapshot, doc, setDoc } from "firebase/firestore";
+import { collection, query, limit, onSnapshot, doc, setDoc, CollectionReference, DocumentData } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
 
 const ADMIN_EMAIL = "admin@optikaaliyah.com"; 
@@ -641,4 +641,10 @@ export default function LandingPage() {
 
     </main>
   );
+}
+
+function addDoc(arg0: CollectionReference<DocumentData, DocumentData>, arg1: {
+  userEmail: string | null; faceShape: any; recommendedModel: string; createdAt: string; purchasedItem: string; // Kosong, nanti diisi kalau dia klik pesan WA
+}) {
+  throw new Error("Function not implemented.");
 }
