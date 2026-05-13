@@ -151,8 +151,8 @@ export default function LandingPage() {
         formData.append("file", blob, "capture.jpg");
 
         try {
-          // HIT API FASTAPI PYTHON TEMENMU DI IP 10.85.205.100
-          const response = await fetch(`http://192.168.0.212:8000/predict?glasses_index=${glassesIndex}`, {
+          // HIT API FASTAPI PYTHON TEMENMU DI SINI
+          const response = await fetch(`http://10.218.20.180:8000/predict?glasses_index=${glassesIndex}`, {
             method: 'POST',
             body: formData,
           });
